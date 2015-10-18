@@ -31,14 +31,37 @@ The structure of the network depicting society is one thing influencing epidemic
 
 ## References
 
-(Add the bibliographic references you intend to use)
-(Explain possible extension to the above models)
 (Code / Projects Reports of the previous year)
+
+Funk, S., Salathé, M., & Jansen, V. A. (2010). Modelling the influence of human behaviour on the spread of infectious diseases: a review. Journal of the Royal Society Interface, 7(50), 1247-1256.
+Chicago
+> General introduction to epidemiological SIR model with behavioral change.
+> A contact network restricts the set of susceptible individuals and allows for treating of an inhomogeneous population.
+
+Gross, T., D’Lima, C. J. D., & Blasius, B. (2006). Epidemic dynamics on an adaptive network. Physical review letters, 96(20), 208701.
+> Change of contact network topology in response to the network's state.
+
+Funk, S., Gilad, E., Watkins, C., & Jansen, V. A. (2009). The spread of awareness and its impact on epidemic outbreaks. Proceedings of the National Academy of Sciences, 106(16), 6872-6877.
+> SIR model on a contact network coupled to an information network.
+> Instead of adapting the contact network topology, the transitions take into account the state of the information network.
+> We plan to use this model as a starting point for our own simulation, with the generalizations described before.
+
+Woolley-Meza, O., Helbing, D. & Brockmann, D. (2015). Limited information activates resonant epidemic control. Manuscript submitted for publication.
+> Dynamics of disease spreading depending on available information.
+> We want to incorporate the concept of information neighborhoods as well as described before.
+
+https://github.com/Pascal-Stucheli/Epidemic_Simulation_SS2012
+> Epidemic simulation with different SI models on a contact network with transportation. No information network, though.
 
 
 ## Research Methods
 
 (Cellular Automata, Agent-Based Model, Continuous Modeling...) (If you are not sure here: 1. Consult your colleagues, 2. ask the teachers, 3. remember that you can change it afterwards)
+
+- S(E)IR model where possibly R=S
+- Contact network that restricts disease spreading channels
+- Information network which inhibits disease spreading
+- Monte Carlo sampling
 
 
 ## Other

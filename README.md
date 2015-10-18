@@ -1,71 +1,82 @@
-# MATLAB Fall 2014 – Research Plan
+# MSSSM Fall 2015 – Research Plan
 
 > * Group Name: Transmissionary
 > * Group participants names: Steffen Arnold, Joris Cadow
 > * Project Title: Influence of casual relationships through social discovery on epidemics
 
+
 ## General Introduction
 
-(States your motivation clearly: why is it important / interesting to solve this problem?)
-Simulations are a fundamental tool to understand the spread of infectious diseases in populations. It depends of course on the chosen model, that is how accurately it represents the real world, which conclusions may be drawn from such a simulation. In this work, we would like to consider the emergence of social discovery platforms such as Tinder. Due to such platforms finding a date outside of one's circle of acquaintances has become easier and thereby more common. This opens new ways for spread of infectious diseases.
-(Add real-world examples, if any)
-Recently, government agencies of Rhode Island, USA blamed Tinder for the dramatic increase in cases of sexual transmittable diseases (STD's), e.g. 79% increase of Syphilis.
-(Put the problem into a historical context, from what does it originate? Are there already some proposed solutions?)
-The structure or connectivity of a social network depicting society is one thing influencing epidemics, but behavior has immense impact as well [Funk, 2009]. Behavior may for example decrease the infection rate due to higher awareness of hygiene or might alter the network structure because sick people isolate themselves or are avoided. Individual behavior is a result of available information. The emergence and propagation of information has a different, though coupled dynamic than the spread of disease. The introduction of social discovery has impact on both respective dynamics, e.g by transmitting a disease at a Tinder date during incubation time, but not letting them know
+*Social discovery platforms* have recently gained much in popularity and change the structure of influences to our everyday lives.
+In this work, we would like to consider the emergence of people discovery platforms such as Tinder: Establishing real-life connections outside of one's circle of acquaintances has become increasingly easier and thereby more common. This opens new ways for the spread of infectious diseases.
+
+Simulations are a fundamental tool to understand the spread of infectious diseases in a population. It depends of course on the chosen model, i.e. how accurately it represents the real world, which conclusions may be drawn from such a simulation.
+
+Recently, government agencies of Rhode Island, USA, claimed that Tinder is responsible for the dramatic increase in cases of sexual transmittable diseases (STDs), e.g. a 79 % increase in Syphilis incidences.
+
+The topology of a contact network depicting a society is not the defining characteristic alone for the dynamics of an epidemic outbreak, but behavior has an immense impact as well [Funk, 2009]. Behavior may for example decrease the infection rate due to higher awareness of hygiene, or it might alter the network topology as sick people isolate themselves or are avoided. Individual behavior is a result of available information. The emergence and propagation of information has a different, though coupled dynamic to the spread of a disease. Various simulations exist in the literature with a focus on strictly local spreading of disease and information.
+
+The introduction of *social discovery* has impact on the dynamics of both the disease and the information, e.g by transmitting a disease at a Tinder date during incubation time without knowing of the susceptible individual.
+
 
 ## The Model
 
-(Define dependent and independent variables you want to study. Say how you want to measure them.) (Why is your model a good abstraction of the problem you want to study?) (Are you capturing all the relevant aspects of the problem?)
-We link an epidemiologic model to a model of a host population, where information emerges and propagates depending on the proximity to Infected people. The amount of information in turn influences the probability of infection.
+We link an epidemiological model to contact and information networks such that information emerges and propagates depending on the proximity to an infected individual. The amount of information available to a susceptible individual in turn influences the probability of an infection. This type of simulation was done before and is well established.
 
-- We use the epidemiological SIR model. Asymptomatic individuals might be treated through the information network (see below), or otherwise we include a fourth E compartment.
+The key feature of *our* model is that infection can also spread in a *non-local* way between individuals that are otherwise largely separated in the contact network, while information spreads strictly locally.
 
-- We have a social network which is an undirected graph. If a link between two nodes (individuals) exists, we call them neighbors.
+- We choose the S(E)IR model with possibly R=S. Asymptomatic individuals might be treated through the information network (see below), or otherwise we include the fourth E compartment.
 
-- We have an information network, where each two individuals share a «perceived contagiousness» of one another, i.e. a directed weighted graph.
+- We have a contact/social network which is an undirected graph. If a link between two nodes (individuals) exists, we call them neighbors.
 
-- Each node (individual) holds the following data:
-1) To which of the SIR compartments is he/she assigned?
-2) At which rate is he/she willing to commit to a casual relationship?
+- We have an information network, where each two nodes share a *perceived contagiousness* of one another, i.e. a directed weighted graph.
 
-- The disease spreads via 2 channels:
-1) Locally: At a given rate an infected individual may infect one of his susceptible neighbors.
-2) Non-locally: Depending on the «willingness rates» of an infected individual and a randomly selected susceptible individual, the disease may also spread between these two.
+- Each node holds the following data:
 
-- Whenever an individual is newly assigned to the infected compartment, information is created only towards his neighbors about his/her new «perceived contagiousness».
+  1. To which of the SIR compartments is he/she assigned?
 
-– «Perceived contagiousness» is time-dependent, i.e. it fades away, and it may take some time until it becomes effective.
+  2. At which rate is he/she willing to commit to a casual relationship?
 
-- «Perceived contagiousness» reduces the probability of an infection in 2 ways:
-1) Locally: The «perceived contagiousness» of the susceptible about the infected individual.
-2) Globally: The total «perceived contagiousnesses» within an information radius of a susceptible individual.
+- The disease can potentially spread via 2 channels:
 
-- «Perceived contagiousness» spreads to neighbors similarly to the disease, but it is reduced from transition to transition to account for authenticity of information.
+  1. Locally: At a given rate an infected individual may infect one of his susceptible neighbors.
+
+  2. Non-locally: Depending on the *willingness rates* of an infected individual and a randomly selected susceptible individual within an adjustable neighborhood, the disease may also spread between these two.
+
+- Whenever an individual is newly assigned to the infected compartment, information is created towards only his/her neighbors about his/her new *perceived contagiousness*.
+
+- *Perceived contagiousness* is time-dependent, i.e. it fades away, and it may take some time until it becomes effective.
+
+- The effective *perceived contagiousness* reduces the probability of an infection in 2 ways:
+
+  1. Locally: The *perceived contagiousness* of the susceptible about the infected individual.
+
+  2. Globally: The mean *perceived contagiousness* within an information radius of a susceptible individual.
+
+- *Perceived contagiousness* spreads to neighbors similarly to the disease, but it is reduced from transition to transition to account for authenticity of information.
+
+From a Monte Carlo simulation of this model we hope to be able to derive data in the dynamics and critical behavior of an epidemic outbreak.
 
 
 ## Fundamental Questions
 
-(At the end of the project you want to find the answer to these questions)
-(Formulate a few, clear questions. Articulate them in sub-questions, from the more general to the more specific. )
+- Is there an actual change in the course of a disease by introducing Tinder-like connections? Are there diseases that are more likely to profit from Tinder-like connections than others? We intend to measure this by comparing the critical values of some disease parameters (reproduction rate, time dependency of infected ratio, etc. in some equilibrium) for different parameters characterizing the emergence of Tinder-like connections.
 
-- We would like to see whether there is an actual change for the course of a disease by introducing Tinder contacts. We intend to measure this by comparing "threshold values" at which a disease spreads through the whole population.
+- Can the data from our extended model be explained by the existing models or does our model introduce a new and necessary degree of freedom? In other words, is the claim that increasing use of Tinder leads to higher incidences of STDs valid or could/should this be explained by a changed sexual behavior in general?
 
-- We also aim to infer whether the effects of our simulation can be explained by social discovery alone or also by change in common interaction. To what degree could the scenario of complete infection of the population for a given disease be accomplished by changing the behavior without Tinder connections?
+- On the assumption that diseases spread more easily in our model due to divergences in disease and information transition, we are interested in the necessary increase on information flow to balance the resulting effects.
 
-- On the assumption that diseases spread more easily in our model with Tinder connections due to their discrepancy of disease and information transition, we are interested in the necessary increase in information flow to balance the respective effects.
 
 ## Expected Results
 
-(What are the answers to the above questions that you expect to find before starting your research?)
-- Information about a disease decreases its spread. Since such information is less widespread or lagging behind with the introduction of Tinder connections, diseases might spread less inhibited through a population. In other words, threshold values for a disease's parameters (like infection rate) are lowered, enabling more diseases to infect the whole population.
+- Information about a disease may reduce its reproduction rate. Since such information does not necessarily reach of the distance of a Tinder-like connection, diseases might then spread less inhibited through the population. In other words, the critical values for certain parameters are probably lowered, enabling more diseases to infect the whole population.
 
 - Common interaction follows a different topology and it's increase should have less effect.
 
-- The same reasons as mentioned above apply to increased flow of information, although information spreads wider than the disease and it's increase might lead to a point where it is much less likely to find tinder-dates with sufficiently little information.
+- The same reasons as mentioned above apply for an increased flow of information, although information spreads wider than the disease and its increase might lead to a critical point where it is much less likely to find Tinder-like connections with sufficiently little information.
+
 
 ## References
-
-(Code / Projects Reports of the previous year)
 
 Funk, S., Salathé, M., & Jansen, V. A. (2010). Modelling the influence of human behaviour on the spread of infectious diseases: a review. Journal of the Royal Society Interface, 7(50), 1247-1256.
 Chicago
@@ -90,15 +101,12 @@ https://github.com/Pascal-Stucheli/Epidemic_Simulation_SS2012
 
 ## Research Methods
 
-(Cellular Automata, Agent-Based Model, Continuous Modeling...) (If you are not sure here: 1. Consult your colleagues, 2. ask the teachers, 3. remember that you can change it afterwards)
-
 - S(E)IR model where possibly R=S
 - Contact network that restricts disease spreading channels
 - Information network which inhibits disease spreading
-- Monte Carlo sampling
+- Monte Carlo random sampling
 
 
 ## Other
 
-(mention datasets you are going to use)
-We intend to use real data provided by Olivia Woolley, comprising " a network of tinder likes, and the Facebook network that goes with it".
+We intend to use real data provided by Dr. Olivia Woolley, comprising "a network of tinder likes, and the Facebook network that goes with it".

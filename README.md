@@ -11,7 +11,7 @@ Simulations are a fundamental tool to understand the spread of infectious diseas
 (Add real-world examples, if any)
 Recently, government agencies of Rhode Island, USA blamed Tinder for the dramatic increase in cases of sexual transmittable diseases (STD's), e.g. 79% increase of Syphilis.
 (Put the problem into a historical context, from what does it originate? Are there already some proposed solutions?)
-The structure or connectivity of a social network depicting society is one thing influencing epidemics, but behavior has immense impact as well [Funk, 2009]. Behavior may for example decrease the infection rate due to higher awareness of hygiene or might alter the network structure because sick people isolate themselves or are avoided. Individual behavior is a result of available information. The emergence and propagation of information has a different, though coupled dynamic than the spread of disease. The introduction of social discovery has impact on both respective dynamics, e.g by transmitting a disease at a Tinder date during incubation time, but not letting them know 
+The structure or connectivity of a social network depicting society is one thing influencing epidemics, but behavior has immense impact as well [Funk, 2009]. Behavior may for example decrease the infection rate due to higher awareness of hygiene or might alter the network structure because sick people isolate themselves or are avoided. Individual behavior is a result of available information. The emergence and propagation of information has a different, though coupled dynamic than the spread of disease. The introduction of social discovery has impact on both respective dynamics, e.g by transmitting a disease at a Tinder date during incubation time, but not letting them know
 
 ## The Model
 
@@ -47,16 +47,22 @@ We link an epidemiologic model to a model of a host population, where informatio
 
 (At the end of the project you want to find the answer to these questions)
 (Formulate a few, clear questions. Articulate them in sub-questions, from the more general to the more specific. )
-- We would like to see whether there is an actual change for the course is there more? influence on  "Threshold" parameters, where epidemic is not stopped
 
-- why is it, could same result happen w/o Tinder
+- We would like to see whether there is an actual change for the course of a disease by introducing Tinder contacts. We intend to measure this by comparing "threshold values" at which a disease spreads through the whole population.
 
-- what change of information propagation would be necessary to remove effect
+- We also aim to infer whether the effects of our simulation can be explained by social discovery alone or also by change in common interaction. To what degree could the scenario of complete infection of the population for a given disease be accomplished by changing the behavior without Tinder connections?
+
+- On the assumption that diseases spread more easily in our model with Tinder connections due to their discrepancy of disease and information transition, we are interested in the necessary increase in information flow to balance the respective effects.
 
 ## Expected Results
 
 (What are the answers to the above questions that you expect to find before starting your research?)
-Information about a disease decreases its spread. Since such information is less widespread with the introduction of Tinder connections, diseases might spread less inhibited through a population. In other words, threshold values for a disease's parameters (like infection rate) are lowered, enabling more diseases to infect the whole population.
+- Information about a disease decreases its spread. Since such information is less widespread or lagging behind with the introduction of Tinder connections, diseases might spread less inhibited through a population. In other words, threshold values for a disease's parameters (like infection rate) are lowered, enabling more diseases to infect the whole population.
+
+- Common interaction follows a different topology and it's increase should have less effect.
+
+- The same reasons as mentioned above apply to increased flow of information, although information spreads wider than the disease and it's increase might lead to a point where it is much less likely to find tinder-dates with sufficiently little information.
+
 ## References
 
 (Add the bibliographic references you intend to use)

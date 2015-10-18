@@ -10,9 +10,9 @@
 *Social discovery platforms* have recently gained much in popularity and change the structure of influences to our everyday lives.
 In this work, we would like to consider the emergence of people discovery platforms such as Tinder: Establishing real-life connections outside of one's circle of acquaintances has become increasingly easier and thereby more common. This opens new ways for the spread of infectious diseases.
 
-Simulations are a fundamental tool to understand the spread of infectious diseases in a population. It depends of course on the chosen model, i.e. how accurately it represents the real world, which conclusions may be drawn from such a simulation.
+Recently, government agencies of Rhode Island, USA, claimed that Tinder is responsible for the dramatic increase in cases of sexually transmitted diseases (STDs), e.g. a 79 % increase in Syphilis incidences.
 
-Recently, government agencies of Rhode Island, USA, claimed that Tinder is responsible for the dramatic increase in cases of sexual transmittable diseases (STDs), e.g. a 79 % increase in Syphilis incidences.
+Simulations are a fundamental tool to understand the spread of infectious diseases in a population. It depends of course on the chosen model, i.e. how accurately it represents the real world, which conclusions may be drawn from such a simulation.
 
 The topology of a contact network depicting a society is not the defining characteristic alone for the dynamics of an epidemic outbreak, but behavior has an immense impact as well [Funk, 2009]. Behavior may for example decrease the infection rate due to higher awareness of hygiene, or it might alter the network topology as sick people isolate themselves or are avoided. Individual behavior is a result of available information. The emergence and propagation of information has a different, though coupled dynamic to the spread of a disease. Various simulations exist in the literature with a focus on strictly local spreading of disease and information.
 
@@ -109,4 +109,4 @@ https://github.com/Pascal-Stucheli/Epidemic_Simulation_SS2012
 
 ## Other
 
-We intend to use real data provided by Dr. Olivia Woolley, comprising "a network of tinder likes, and the Facebook network that goes with it".
+We intend to use real data provided by Dr. Olivia Woolley comprising "a network of tinder likes, and the Facebook network that goes with it".

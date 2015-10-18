@@ -2,15 +2,15 @@
 
 > * Group Name: Transmissionary
 > * Group participants names: Steffen Arnold, Joris Cadow
-> * Project Title: Influence of casual relationships through social discovery on epidemics
+> * Project Title: Social discovery and its impact on the spreading of infectious diseases
 
 
 ## General Introduction
 
-*Social discovery platforms* have recently gained much in popularity and change the structure of influences to our everyday lives.
+*Social discovery platforms* have recently gained much in popularity and they change the structure of influences to our everyday lives.
 In this work, we would like to consider the emergence of people discovery platforms such as Tinder: Establishing real-life connections outside of one's circle of acquaintances has become increasingly easier and thereby more common. This opens new ways for the spread of infectious diseases.
 
-Recently, government agencies of Rhode Island, USA, claimed that Tinder is responsible for the dramatic increase in cases of sexually transmitted diseases (STDs), e.g. a 79 % increase in Syphilis incidences.
+Consequently, government agencies of Rhode Island, USA, are now claiming that Tinder is responsible for a dramatic increase in the incidence of sexually transmitted diseases (STDs), e.g. a 79 % increase for Syphilis.
 
 Simulations are a fundamental tool to understand the spread of infectious diseases in a population. It depends of course on the chosen model, i.e. how accurately it represents the real world, which conclusions may be drawn from such a simulation.
 

@@ -8,15 +8,17 @@ addpath('graphviz')
 %%% Simulation Parameters
 %%%
 
-num_nodes = 25;       % Number of individuals in network
+num_nodes = 49;       % Number of individuals in network
 
-prob_infection = 0.50; % Probability per timestep of infection to spread
+prob_infection = 0.25; % Probability per timestep of infection to spread
                        % along edge between infected and susceptible
 prob_recovery  = 0.25; % Probability per timestep of infected to recover
 
-num_steps = 20;        % Number of timesteps for simulation
+num_steps = 40;        % Number of timesteps for simulation
 
-pause_plot = 1.0;      % Pause X seconds between each timestep
+pause_plot = 0.5;      % Pause X seconds between each timestep
+
+plot_marker_size = 2000/num_nodes;
 
 %%%
 %%% Data Structures
@@ -26,6 +28,9 @@ pause_plot = 1.0;      % Pause X seconds between each timestep
 % Contact network along which the disease spreads
 %
 network = contact_network(num_nodes);
+
+[coords_x, coords_y] = make_layout(network);
+coordinates = [coords_x' coords_y'];
 
 %
 % States 1: SIR compartments (epidemiology)
@@ -48,6 +53,8 @@ recovered   = zeros(1,num_nodes); % do not contribute to spreading
 % Infect Individual #1
 susceptible(1) = 0;
    infected(1) = 1;
+   
+frames = []
 
 %
 % Simulate for num_steps timesteps
@@ -125,19 +132,23 @@ for t = 1:num_steps
     disp([susceptible; infected; recovered].')
     
     % Plot current state of the network
-    labels = [];
-    for node = 1:num_nodes
-        label = '?';
-        if (susceptible(node) == 1)
-            label = 'S';
-        elseif (infected(node) == 1)
-            label = 'I';
-        elseif (recovered(node) == 1)
-            label = 'R';
-        end
-        labels = [labels; label];
+    hold on
+    axis off
+    gplot(network, coordinates, 'k');
+    for node = find(susceptible)
+        plot(coordinates(node,1),coordinates(node,2),'.g','MarkerSize',plot_marker_size)
     end
-    graph_draw(network, 'node_labels', cellstr(labels), 'fontsize', 16);
-    pause(pause_plot);
+    for node = find(infected)
+        plot(coordinates(node,1),coordinates(node,2),'.r','MarkerSize',plot_marker_size)
+    end
+    for node = find(recovered)
+        plot(coordinates(node,1),coordinates(node,2),'.k','MarkerSize',plot_marker_size/2)
+    end
+    frames = [frames; getframe];
+    clf
     
 end
+
+axis off
+movie(frames, 1, 1/pause_plot)
+movie2avi(frames,sprintf('../videos/movie-%s.avi',datestr(now,30)),'fps',1/pause_plot)

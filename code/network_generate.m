@@ -1,4 +1,4 @@
-function [ network ] = contact_network( num_nodes )
+function [ network ] = network_generate( num_nodes )
 
 network = zeros(num_nodes,num_nodes);
 

@@ -11,7 +11,7 @@
 %   - R compartment: recovered nodes do not contribute (anymore)
 % - Disease spreads along contact network (= graph):
 %   - Recovery probability of single node: I -> R
-%   - Infection probability of neighbors: <IS>c -> <II>c
+%   - Contact probability of neighbors: <IS>c -> <II>c
 % - Disease characterized by graph and transition probabilities.
 %
 %
@@ -25,8 +25,8 @@
 %   - Timestamp of when information arrived at recipient.
 %   - Absence of information denoted by zero-valued timestamp.
 % - All information in single node contributes to its "awareness".
-% - Awareness of susceptible node modifies infection probability:
-%     Prob(<IS>c -> <II>c) = ProbInfection * (1 - Awareness(S))
+% - Awareness of susceptible node modifies infection probabilty:
+%     Prob(<IS>c -> <II>c) = probContact * (1 - Awareness(S))
 %
 %
 % Notation
@@ -51,21 +51,21 @@ addpath('graphviz')
 
 DEBUG = false;
 
-% Number of nodes
+% Number of nodes in networks
 P.Topology.numNodes =  36;
 
-% Infection probability per timestamp
-P.Disease.probInfect = 0.50;
+% Contact probability per timestamp
+P.Disease.probContact = 0.50;
 % Recovery probability per timestamp
 P.Disease.probRecover = 0.25;
 
 % Generation probability per timestamp
-P.Information.probGenerate  = 1.00;
+P.Information.probGenerate  = 0.00;
 % Prpopagation probability per timestamp
-P.Information.probPropagate = 1.00;
+P.Information.probPropagate = 0.00;
 
 % Number of independent runs
-P.Simulation.numRuns =  50;
+P.Simulation.numRuns =  10;
 % Number of timesteps per run
 P.Simulation.numSteps =  30;
 
@@ -77,9 +77,13 @@ P.Information.numStepsNonZero =  3;
 % Magnitude of non-zero awareness (>= 0 && <= 1)
 %   == 0 -> reduces to SIR model without info
 %   == 1 -> inhibits new infections completely
-P.Information.nonZeroAwareness = 1.00;
+P.Information.nonZeroAwareness = 0.00;
 % Coefficient to information distance
 P.Information.coeffDistance = 1.00;
+
+% Random contact probability per timestep
+% @todo Assume uniform distribution at first
+P.Perturbation.probRandContact = 0.50;
 
 
 %%%
@@ -95,6 +99,12 @@ S.Network.contact = network_generate(P.Topology.numNodes);
 % Information network along which the awareness spreads
 %
 S.Network.info = S.Network.contact;
+
+%
+% Random contact probability (e.g. Tinder dates) per individual
+%
+S.Perturbation.probRandContact = ones(1,P.Topology.numNodes) ...
+    * P.Perturbation.probRandContact; % @todo different distributions
 
 
 %%%
@@ -189,33 +199,40 @@ for sim = 1:P.Simulation.numRuns
     for t = 2:P.Simulation.numSteps
 
 
+        % Iterate through the infected nodes without information
+        for node_infected = find(S.Disease.infected)
+
+            % Does this node have information about his infection?
+            if (S.Information.timestamp(node_infected,node_infected) ~= 0)
+                continue
+            end
+
+            % @todo find and intersect nodes instead of iterating all
+
+            if DEBUG, fprintf('>> Generate info about %d?\n', node_infected); end
+            if (rand <= P.Information.probGenerate)
+                S.Information.timestamp(node_infected,node_infected) = t-1;
+                S.Information.distance(node_infected,node_infected) = 0;
+
+                if DEBUG, fprintf('>>> Yes!\n'); end
+                S.Debug.numGenerate = S.Debug.numGenerate+1;
+            else
+                if DEBUG, fprintf('>>> No!\n'); end
+                S.Debug.numNoGenerate = S.Debug.numNoGenerate+1;
+            end
+
+        end
+
+
+        % @todo check order of generation/propagation/infection
+
+
         % Create working copies of last states
         C.Disease.susceptible   = S.Disease.susceptible;
         C.Disease.infected      = S.Disease.infected;
         C.Disease.recovered     = S.Disease.recovered;
         C.Information.timestamp = S.Information.timestamp;
         C.Information.distance  = S.Information.distance;
-
-
-        % Iterate through the infected nodes
-        for node_infected = find(S.Disease.infected)
-
-            % Does this node have information about his infection?
-            if (C.Information.timestamp(node_infected,node_infected) == 0)
-                if DEBUG, fprintf('>> Generate info about %d?\n', node_infected); end
-                if (rand <= P.Information.probGenerate)
-                    C.Information.timestamp(node_infected,node_infected) = t;
-                    C.Information.distance(node_infected,node_infected) = 0;
-
-                    if DEBUG, fprintf('>>> Yes!\n'); end
-                    S.Debug.numGenerate = S.Debug.numGenerate+1;
-                else
-                    if DEBUG, fprintf('>>> No!\n'); end
-                    S.Debug.numNoGenerate = S.Debug.numNoGenerate+1;
-                end
-            end
-
-        end
 
 
         %
@@ -228,6 +245,8 @@ for sim = 1:P.Simulation.numRuns
             if (S.Information.timestamp(node_about,node_about) == 0)
                 continue
             end
+
+            % @todo find and intersect nodes instead of iterating all
 
             if DEBUG, fprintf('>> Propagating about %d\n', node_about); end
 
@@ -273,6 +292,31 @@ for sim = 1:P.Simulation.numRuns
         if DEBUG, fprintf('> Timestep T = %d\n', t); end
 
 
+        %
+        % Perturbations: Random contact, e.g. Tinder dates
+        %
+
+        network_perturbed = S.Network.contact;
+
+        probabilities = S.Perturbation.probRandContact;
+        randoms = rand(1, P.Topology.numNodes);
+        nodes_dating = find(randoms <= probabilities);
+
+        % Shuffle dating nodes and add pairs as perturbation
+
+        nodes_dating = nodes_dating(randperm(length(nodes_dating)));
+
+        for i = 1:2:length(nodes_dating)-1 % Skip remainder
+            one = nodes_dating(i);
+            two = nodes_dating(i+1);
+
+            if DEBUG, fprintf('>> %d and %d dating\n', one, two); end
+
+            network_perturbed(one,two) = 1;
+            network_perturbed(two,one) = 1;
+        end
+
+
         % Iterate through the infected nodes
         for node_infected = find(S.Disease.infected)
 
@@ -280,20 +324,17 @@ for sim = 1:P.Simulation.numRuns
 
             % Infected node may infect his susceptible neighbors
             susceptibles = find(C.Disease.susceptible);
-            neighbors = find(S.Network.contact(node_infected,:));
+            neighbors = find(network_perturbed(node_infected,:));
             neighbors_susceptible = intersect(neighbors,susceptibles);
-
-
-            % @todo Introduce Tinder connections as perturbations
 
 
             % Iterate through the susceptible neighbors
             for node_susceptible = neighbors_susceptible
 
                 % Probability along this channel
-                prob = P.Disease.probInfect;
+                prob = P.Disease.probContact;
 
-                % Incorporate info into infection probability
+                % Incorporate info into contact probabilty
                 awareness = awareness_calculate( ...
                     P.Information, S.Information, t, ...
                     node_infected, node_susceptible);

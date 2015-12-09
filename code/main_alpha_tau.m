@@ -49,14 +49,14 @@ DEBUG = false;
 
 
 num_nodes = 100;
-num_runs = 50;
+num_runs = 100;
 num_steps = 100;
 
-probs_contact = 0.5;
-probs_recovery = 0.2;
+probs_contact = 0.4;
+probs_recovery = 0.5;
 probs_generation = 1;
-probs_propagation = 0:0.1:1;
-probs_dating = 0:0.1:1;
+probs_propagation = 0:0.02:1;
+probs_dating = 0:0.02:1;
 coeffs_distance = [2]*log(2)/2;
 
 
@@ -99,8 +99,6 @@ parsets(parsets_index,:) = [ ...
     coeff_distance ...
     ];
 parsets_index = parsets_index + 1;
-
-save ../data/parsets_alpha_tau.dat parsets -ascii
 
 
 %%%
@@ -189,12 +187,13 @@ for s = 1:P.Simulation.numRuns
 end
 
 
+end
+end
+end
+end
+end
+end
+
+
+save ../data/parsets_alpha_tau.dat parsets -ascii
 save ../data/data_alpha_tau.dat data -ascii
-
-
-end
-end
-end
-end
-end
-end

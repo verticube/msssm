@@ -14,8 +14,6 @@ if DEBUG, fprintf('>> Infecting %d\n', node_pat0); end
 S.Disease.infected   (node_pat0) = 1; % t of infection
 S.Disease.susceptible(node_pat0) = 0;
 
-S.Disease.infections (node_pat0) = 1;
-
 
 %
 % Generate self-information with probability:

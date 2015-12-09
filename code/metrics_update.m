@@ -13,7 +13,7 @@ M.numRecovered(t,s)   = length(find(S.Disease.recovered));
 % Mean over numbers of infections caused by single node
 %
 numEverInfected = S.Topology.numNodes-M.numSusceptible(t,s);
-M.meanR0(t,s)   = sum(S.Disease.infected)/numEverInfected;
+M.meanR0(t,s) = sum(S.Disease.infections)/numEverInfected;
 
 
 end

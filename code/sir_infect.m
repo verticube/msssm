@@ -41,8 +41,14 @@ for node_infected = find(S.Disease.infected)'
     % Reassign to SIR compartments:
     %
 
+    collisions = C.Disease.infected & subjects;
+
     C.Disease.infected   (subjects) = t;
     C.Disease.susceptible(subjects) = 0;
+
+    C.Disease.infected(node_infected) = ...
+      C.Disease.infected(node_infected) + ...
+      length(find(subjects)) - length(find(collisions));
 
 end
 

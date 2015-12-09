@@ -48,39 +48,97 @@
 DEBUG = false;
 
 
+num_nodes = 100;
+num_runs = 20;
+num_steps = 100;
+
+probs_contact = 0.6;
+probs_recovery = 0.1;
+probs_generation = 1;
+probs_propagation = 1;
+probs_dating = 0.2;
+coeffs_distance = [1:0.1:3]*log(2)/2;
+
+
+num_parsets = 1 ...
+  * length(probs_contact) ...
+  * length(probs_recovery) ...
+  * length(probs_generation) ...
+  * length(probs_propagation) ...
+  * length(probs_dating) ...
+  * length(coeffs_distance) ...
+  ;
+num_rows = num_parsets * num_runs * num_steps;
+
+data = zeros(num_rows, 1 + 2 + 3);
+data_index = 1;
+
+parsets = zeros(num_parsets, 1 + 6);
+parsets_index = 1;
+
+
+parset = 0;
+
+for prob_contact = probs_contact
+for prob_recovery = probs_recovery
+for prob_generation = probs_generation
+for prob_propagation = probs_propagation
+for prob_dating = probs_dating
+for coeff_distance = coeffs_distance
+
+parset = parset + 1;
+fprintf('Parameter Set %d/%d\n', parset, num_parsets);
+
+parsets(parsets_index,:) = [ ...
+    parset ...
+    prob_contact ...
+    prob_recovery ...
+    prob_generation ...
+    prob_propagation ...
+    prob_dating ...
+    coeff_distance ...
+    ];
+parsets_index = parsets_index + 1;
+
+save ../data/parsets_k.dat parsets -ascii
+
+
 %%%
 %%% Simulation Parameters
 %%%
 
 % Number of nodes in networks
-P.Topology.numNodes =   9;
+P.Topology.numNodes = num_nodes;
 
 % Contact probability per timestamp
-P.Disease.probContact = 1.00;
+P.Disease.probContact = prob_contact;
 % Recovery probability per timestamp
-P.Disease.probRecover = 1.00;
+P.Disease.probRecover = prob_recovery;
 
 % Generation probability per timestamp
-P.Information.probGenerate  = 1.00;
+P.Information.probGenerate  = prob_generation;
 % Prpopagation probability per timestamp
-P.Information.probPropagate = 1.00;
+P.Information.probPropagate = prob_propagation;
 
 % Cutoff for information distance
 P.Information.cutoffDistance = 3;
 % Starting value for new awareness
 P.Information.awarenessStart = 1;
 % Decrease in awareness per timestep
-P.Information.awarenessSlope = 1/1;
+P.Information.awarenessSlope = 1/2;
 % Coefficient to information distance
-P.Information.coeffDistance  = log(2);
+P.Information.coeffDistance  = coeff_distance;
 
 % Random contact probability per timestep
-P.Perturbation.probRandContact = 1.00;
+P.Perturbation.probRandContact = prob_dating;
 
 % Number of independent runs
-P.Simulation.numRuns =  10;
+P.Simulation.numRuns = num_runs;
 % Number of timesteps per run
-P.Simulation.numSteps =  30;
+P.Simulation.numSteps = num_steps;
+
+
+rng(0,'twister'); % Seed RNG statically
 
 
 M = metrics_init(P);
@@ -89,14 +147,24 @@ for s = 1:P.Simulation.numRuns
 
     fprintf('> Simulation %d\n', s);
 
-    %RandStream.getGlobalStream
-
     S = sim_init(P,s);
 
     if DEBUG, fprintf('> Timestep t = 1\n'); end
 
     S = sim_pat0(DEBUG,S);
     M = metrics_update(s,S,M,1);
+
+
+    data(data_index,:) = [ ...
+        parset ...
+        s ...
+        1 ...
+        M.numSusceptible(1,s) ...
+        M.numRecovered(1,s) ...
+        M.meanR0(1,s) ...
+        ];
+    data_index = data_index + 1;
+
 
     for t = 2:P.Simulation.numSteps
 
@@ -105,11 +173,28 @@ for s = 1:P.Simulation.numRuns
         S = sim_step(DEBUG,S,t);
         M = metrics_update(s,S,M,t);
 
+
+        data(data_index,:) = [ ...
+            parset ...
+            s ...
+            t ...
+            M.numSusceptible(t,s) ...
+            M.numRecovered(t,s) ...
+            M.meanR0(t,s) ...
+            ];
+        data_index = data_index + 1;
+
     end
 
 end
 
 
-hold on
-plot(mean(M.numInfected ,2)/P.Topology.numNodes)
-plot(mean(M.numRecovered,2)/P.Topology.numNodes)
+save ../data/data_k.dat data -ascii
+
+
+end
+end
+end
+end
+end
+end

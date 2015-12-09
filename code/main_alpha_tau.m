@@ -49,15 +49,15 @@ DEBUG = false;
 
 
 num_nodes = 100;
-num_runs = 20;
+num_runs = 50;
 num_steps = 100;
 
-probs_contact = 0.2:0.2:1.0;
-probs_recovery = 0.1:0.1:0.3;
+probs_contact = 0.5;
+probs_recovery = 0.2;
 probs_generation = 1;
-probs_propagation = 1;
-probs_dating = 0.1:0.1:0.3;
-coeffs_distance = [1 2 3]*log(2)/2;
+probs_propagation = 0:0.1:1;
+probs_dating = 0:0.1:1;
+coeffs_distance = [2]*log(2)/2;
 
 
 num_parsets = 1 ...
@@ -70,7 +70,7 @@ num_parsets = 1 ...
   ;
 num_rows = num_parsets * num_runs * num_steps;
 
-data = zeros(num_rows, 1 + 2 + 2);
+data = zeros(num_rows, 1 + 2 + 3);
 data_index = 1;
 
 parsets = zeros(num_parsets, 1 + 6);
@@ -100,10 +100,7 @@ parsets(parsets_index,:) = [ ...
     ];
 parsets_index = parsets_index + 1;
 
-save ../data/parsets.dat parsets -ascii
-
-
-%RandStream.getGlobalStream % @todo
+save ../data/parsets_alpha_tau.dat parsets -ascii
 
 
 %%%
@@ -141,6 +138,9 @@ P.Simulation.numRuns = num_runs;
 P.Simulation.numSteps = num_steps;
 
 
+rng(0,'twister'); % Seed RNG statically
+
+
 M = metrics_init(P);
 
 for s = 1:P.Simulation.numRuns
@@ -161,6 +161,7 @@ for s = 1:P.Simulation.numRuns
         1 ...
         M.numSusceptible(1,s) ...
         M.numRecovered(1,s) ...
+        M.meanR0(1,s) ...
         ];
     data_index = data_index + 1;
 
@@ -179,6 +180,7 @@ for s = 1:P.Simulation.numRuns
             t ...
             M.numSusceptible(t,s) ...
             M.numRecovered(t,s) ...
+            M.meanR0(t,s) ...
             ];
         data_index = data_index + 1;
 
@@ -187,7 +189,7 @@ for s = 1:P.Simulation.numRuns
 end
 
 
-save ../data/data.dat data -ascii
+save ../data/data_alpha_tau.dat data -ascii
 
 
 end

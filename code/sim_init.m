@@ -27,6 +27,11 @@ S.Disease.susceptible =  ones(S.Topology.numNodes,1);
 S.Disease.infected    = zeros(S.Topology.numNodes,1);
 S.Disease.recovered   = zeros(S.Topology.numNodes,1);
 
+%
+% Counter of infections caused by single node, R_0
+%
+S.Disease.infections  = zeros(S.Topology.numNodes,1);
+
 
 %
 % States 2: Information network of awareness

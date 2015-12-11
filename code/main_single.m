@@ -53,34 +53,34 @@ DEBUG = false;
 %%%
 
 % Number of nodes in networks
-P.Topology.numNodes =   9;
+P.Topology.numNodes =   100;
 
 % Contact probability per timestamp
-P.Disease.probContact = 1.00;
+P.Disease.probContact = 0.40;
 % Recovery probability per timestamp
-P.Disease.probRecover = 1.00;
+P.Disease.probRecover = 0.50;
 
 % Generation probability per timestamp
 P.Information.probGenerate  = 1.00;
 % Prpopagation probability per timestamp
-P.Information.probPropagate = 1.00;
+P.Information.probPropagate = 0.60;
 
 % Cutoff for information distance
 P.Information.cutoffDistance = 3;
 % Starting value for new awareness
 P.Information.awarenessStart = 1;
 % Decrease in awareness per timestep
-P.Information.awarenessSlope = 1/1;
+P.Information.awarenessSlope = 1/2;
 % Coefficient to information distance
 P.Information.coeffDistance  = log(2);
 
 % Random contact probability per timestep
-P.Perturbation.probRandContact = 1.00;
+P.Perturbation.probRandContact = 0.50;
 
 % Number of independent runs
-P.Simulation.numRuns =  10;
+P.Simulation.numRuns =  2;
 % Number of timesteps per run
-P.Simulation.numSteps =  30;
+P.Simulation.numSteps =  10;
 
 
 rng(0,'twister'); % Seed RNG statically
@@ -107,10 +107,11 @@ for s = 1:P.Simulation.numRuns
         M = metrics_update(s,S,M,t);
 
     end
-
+    
 end
 
+sum_knowledge(S,t);
 
-hold on
-plot(mean(M.numInfected ,2)/P.Topology.numNodes)
-plot(mean(M.numRecovered,2)/P.Topology.numNodes)
+%hold on
+%plot(mean(M.numInfected ,2)/P.Topology.numNodes)
+%plot(mean(M.numRecovered,2)/P.Topology.numNodes)

@@ -1,6 +1,8 @@
-function [ network ] = contact_network( num_nodes )
+function [ network ] = network_generate( num_nodes )
+
 
 network = zeros(num_nodes,num_nodes);
+
 
 %density = 0.2;
 %for i = 1:num_nodes
@@ -11,6 +13,7 @@ network = zeros(num_nodes,num_nodes);
 %      end
 %  end
 %end
+
 
 % Generate uniform grid network
 num_per_axis = ceil(sqrt(num_nodes));
@@ -32,5 +35,6 @@ for i = 1:num_nodes
         network(i+num_per_axis,i) = 1;
     end
 end
+
 
 end

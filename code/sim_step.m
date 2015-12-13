@@ -12,14 +12,6 @@ C = S; % Create working copy (new state)
 
 
 %
-% Introduce random contacts, e.g. Tinder dates:
-%
-% Note: C still holds unperturbed contact network!
-%
-S = network_perturb(DEBUG,S);
-
-
-%
 % Propagate disease through contact network:
 %
 C = sir_infect(DEBUG,S,C,t);

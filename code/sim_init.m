@@ -17,6 +17,14 @@ S.Network.info = S.Network.contact; % Just a clone
 
 
 %
+% Introduce random contacts, e.g. Tinder dates:
+%
+% In this case the random contacts stay static for all steps
+%
+S = network_perturb(DEBUG,S);
+
+
+%
 % States 1: SIR compartments (epidemiology)
 %
 % S.Disease.X(i)      -> timestamp of infection

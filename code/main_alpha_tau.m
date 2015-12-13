@@ -49,14 +49,14 @@ DEBUG = false;
 
 
 num_nodes = 100;
-num_runs = 100;
+num_runs = 50;
 num_steps = 100;
 
 probs_contact = 0.4;
-probs_recovery = 0.5;
+probs_recovery = 0.3;
 probs_generation = 1;
-probs_propagation = 0:0.02:1;
-probs_dating = 0:0.02:1;
+probs_propagation = 0:0.05:1;
+probs_dating = 0:0.05:1;
 coeffs_distance = [2]*log(2)/2;
 
 

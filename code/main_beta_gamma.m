@@ -49,11 +49,11 @@ DEBUG = false;
 
 
 num_nodes = 100;
-num_runs = 100;
+num_runs = 50;
 num_steps = 100;
 
-probs_contact = 0:0.02:1;
-probs_recovery = 0:0.02:1;
+probs_contact = 0:0.05:1;
+probs_recovery = 0:0.05:1;
 probs_generation = 1;
 probs_propagation = 0;
 probs_dating = 0;

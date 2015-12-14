@@ -1,6 +1,6 @@
-function [ values ] = sum_knowledge( S, t )
+function [sum_knowledge, sir_state] = get_attributes( S, t )
 
-values = zeros(S.Topology.numNodes,1);
+sum_knowledge = zeros(S.Topology.numNodes,1);
 
 %
 % Neighborhood of the susceptible nodes
@@ -16,11 +16,11 @@ for node = 1:S.Topology.numNodes
 
     awarenesses = min(1,max(0,awarenesses .* coefficients));
 
-    values(node) = values(node) + sum(awarenesses);
+    sum_knowledge(node) = sum_knowledge(node) + sum(awarenesses);
 
 end
 %knowledge
-values = min(1,max(0,values));
+sum_knowledge = min(1,max(0,sum_knowledge));
 
 %SIR state
 sir_state = zeros(S.Topology.numNodes,1);
@@ -39,13 +39,14 @@ end
     
 
 % ID; knowledge; SIR
-ID = [1:S.Topology.numNodes];
-attributes = [ ID' values sir_state];
-your_text = {'Id;knowledge;state'};
-fid = fopen('attributes.csv', 'w');
-fprintf(fid,'%s\n',your_text{:});
-fclose(fid);
-dlmwrite('attributes.csv',attributes,'-append','delimiter',';');
+%ID = [1:S.Topology.numNodes];
+%attributes = [ ID' values sir_state];
 
+%Write attributes of t in .csv
+%your_text = {'Id;knowledge;state'};
+%fid = fopen('attributes.csv', 'w');
+%fprintf(fid,'%s\n',your_text{:});
+%fclose(fid);
+%dlmwrite('attributes.csv',attributes,'-append','delimiter',';');
 
 end

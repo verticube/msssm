@@ -1,4 +1,4 @@
-function[] = append_graph(run, P, ks , sirs )
+function[] = append_graph(run, P, ks , sirs, new_edges )
 t_max = P.Simulation.numSteps;
 id_max = P.Topology.numNodes;
 
@@ -12,7 +12,12 @@ at_open = '        <attvalues>';
 at_close = '        </attvalues>';
 node_close = '      </node>';
 nodes_end = '    </nodes>';
-%todo edgees
+%todo edgees --------------
+edges_start = '    <edges>';
+%edge_open
+%edge_at
+edge_close = '      </edge>';
+edges_end = '    </edges>';
 graph_end = '  </graph>';
 gexf_end = '</gexf>';
 
@@ -32,7 +37,21 @@ fprintf(fid,'%s\n',nodes_start);
         fprintf(fid,'%s\n',node_close);
     end
 fprintf(fid,'%s\n',nodes_end);
-%todo edges
+%todo edges -----------------
+fprintf(fid,'%s\n',edges_start);
+    for edge_id = 1:new_edges(:,1)
+        edge_open = sprintf('      <edge id="%d" source="%d" target="%d" start="%d" end="%d">\n',...
+            new_edges(edge_id,:), new_edges(edge_id,4)+1 );
+        fprintf(fid, edge_open);
+        fprintf(fid,'%s\n',at_open);
+        edge_at = sprintf('          <attvalue for="weight" value="1.0" start="%d" end="%d"></attvalue>\n',...
+            new_edges(edge_id,4), new_edges(edge_id,4)+1 );
+        fprintf(fid, edge_at);
+        fprintf(fid,'%s\n',at_close);
+        fprintf(fid,'%s\n',edge_close);
+    end
+fprintf(fid,'%s\n',edges_end);
+%end of file-----------------
 fprintf(fid,'%s\n',graph_end);
 fprintf(fid,'%s\n',gexf_end);
 fclose(fid);

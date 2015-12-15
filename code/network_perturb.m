@@ -1,4 +1,4 @@
-function [ S ] = network_perturb( DEBUG, S )
+function [ S, new_edges, new_id ] = network_perturb( DEBUG, S, new_edges, new_id, t )
 %NETWORK_PERTURB Adds random contacts to network.
 
 
@@ -32,6 +32,8 @@ for i = 1:2:length(nodes)-1 % Skip remainder
     S.Network.contact(one,two) = 1;
     S.Network.contact(two,one) = 1;
 
+    new_edges = [new_edges; new_id, one, two, t ];
+    new_id = new_id + 1;
 end
 
 

@@ -1,4 +1,4 @@
-function [ S ] = sim_step( DEBUG, S, t )
+function [ S, new_edges, new_id ] = sim_step( DEBUG, S, t, new_edges, new_id )
 %SIM_STEP Performs one timestep of simulation for t > 1.
 
 
@@ -16,7 +16,7 @@ C = S; % Create working copy (new state)
 %
 % Note: C still holds unperturbed contact network!
 %
-S = network_perturb(DEBUG,S);
+[S, new_edges, new_id] = network_perturb(DEBUG,S, new_edges, new_id, t);
 
 
 %

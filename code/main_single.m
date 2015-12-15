@@ -101,18 +101,20 @@ for s = 1:P.Simulation.numRuns
     
     gathered_knowledges = zeros(P.Topology.numNodes, 1);
     gathered_sir_states = zeros(P.Topology.numNodes, 1);
+    new_edges = [];
+    new_id = 181;
     copyfile('Gephi/base.gexf',sprintf('Gephi/dynamic_graph_run%d.gexf',s));
     
     for t = 2:P.Simulation.numSteps
 
         if DEBUG, fprintf('> Timestep t = %d\n', t); end
-
-        S = sim_step(DEBUG,S,t);
+        [S, new_edges, new_id] = sim_step(DEBUG,S,t, new_edges, new_id);
         M = metrics_update(s,S,M,t);
-        [gathered_knowledges, gathered_sir_states] = collect_attributes(gathered_knowledges, gathered_sir_states, S, t);
+        [gathered_knowledges, gathered_sir_states] = ...
+            collect_attributes(gathered_knowledges, gathered_sir_states, S, t);
     end
     
-    append_graph(s, P, gathered_knowledges, gathered_sir_states);
+    append_graph(s, P, gathered_knowledges, gathered_sir_states, new_edges);
     
 end
 

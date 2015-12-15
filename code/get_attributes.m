@@ -24,8 +24,9 @@ sum_knowledge = min(1,max(0,sum_knowledge));
 
 %SIR state
 sir_state = zeros(S.Topology.numNodes,1);
+sir_state(1,1) = 2;
 
-for node = 1:S.Topology.numNodes
+for node = 2:S.Topology.numNodes
     if (S.Disease.susceptible(node) > 0)
         sir_state(node) = 1;
     end
